@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 const NAV_LINKS = [
   { label: "Origin", href: "#origin" },
   { label: "Process", href: "#process" },
+  { label: "Flavor", href: "#tasting" },
   { label: "Shop", href: "#shop" },
   { label: "Journal", href: "#journal" },
   { label: "Contact", href: "#contact" },

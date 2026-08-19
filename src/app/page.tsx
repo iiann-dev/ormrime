@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { About } from "@/components/About";
 import { Bento } from "@/components/Bento";
 import { Stats } from "@/components/Stats";
+import { TastingNotes } from "@/components/TastingNotes";
 import { Testimonials } from "@/components/Testimonials";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
@@ -23,6 +24,7 @@ export default function HomePage() {
           <About />
           <Bento />
           <Stats />
+          <TastingNotes />
           <Testimonials />
           <CTA />
           <Footer />
