@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   ORMRIME — Coffee brand landing
+   Deep coffee brown base matching the sequence
+   ───────────────────────────────────────────── */
+
+@theme {
+  --font-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+
+  /* Brand palette — sampled from the sequence frames */
+  --color-coffee-50: #f7f1ea;
+  --color-coffee-100: #ece1d2;
+  --color-coffee-200: #d6c0a4;
+  --color-coffee-300: #b89476;
+  --color-coffee-400: #946b4d;
+  --color-coffee-500: #6b4a31;
+  --color-coffee-600: #4a3120;
+  --color-coffee-700: #342217;
+  --color-coffee-800: #251810;
+  --color-coffee-900: #1a100a;
+  --color-coffee-950: #0f0805;
+
+  --color-cream: #f3e9d7;
+  --color-amber-glow: #d6a55a;
+
+  /* The exact bg color the sequence blends into */
+  --color-sequence-bg: #2d1c12;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    /* Avoid scrollbar jumpiness under Lenis */
+    overflow-y: scroll;
+    background-color: var(--color-sequence-bg);
+    color: var(--color-cream);
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background-color: var(--color-sequence-bg);
+    color: var(--color-cream);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+  }
+
+  ::selection {
+    background-color: var(--color-amber-glow);
+    color: var(--color-coffee-900);
+  }
+
+  /* Tight tracking on display type — minimalist */
+  .display {
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+  }
+
+  .eyebrow {
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+}
+
+@layer utilities {
+  /* Gradient mask for soft section edges */
+  .mask-fade-y {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 12%,
+      black 88%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 12%,
+      black 88%,
+      transparent
+    );
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glow-amber {
+    text-shadow: 0 0 24px rgba(214, 165, 90, 0.35);
+  }
+
+  /* Splittable char animation utility */
+  .char {
+    display: inline-block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+  }
+}
+
+/* Loader (preload screen) */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--color-sequence-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loader[data-loaded="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loader-bar {
+  width: min(280px, 60vw);
+  height: 1px;
+  background: rgba(243, 233, 215, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.loader-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-amber-glow);
+  transform-origin: left center;
+  transform: scaleX(var(--progress, 0));
+  transition: transform 0.18s linear;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
