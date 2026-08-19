@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "ORMRIME — Kyoto-Drip Bottled Cold Brew Latte",
   description:
     "Slow-steeped 18 hours, single-origin milk, nitrogen-sealed in 250ml flint glass. Small-batch bottled cold brew from Bali.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export const viewport: Viewport = {

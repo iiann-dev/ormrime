@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <!-- Rich gold gradient -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D77F"/>
+      <stop offset="50%" stop-color="#D6A55A"/>
+      <stop offset="100%" stop-color="#8F6226"/>
+    </linearGradient>
+    <!-- Deep coffee backdrop with soft inner glow -->
+    <radialGradient id="coffeeBg" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#2D1C12"/>
+      <stop offset="100%" stop-color="#0F0805"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Rounded luxury badge background -->
+  <rect width="32" height="32" rx="8" fill="url(#coffeeBg)"/>
+  <rect width="30" height="30" x="1" y="1" rx="7" fill="none" stroke="url(#gold)" stroke-width="0.75" stroke-opacity="0.4"/>
+
+  <!-- Bold Serif 'O' for ORMRIME -->
+  <path d="M15 7.5 C10.8 7.5 8 11 8 16 C8 21 10.8 24.5 15 24.5 C19.2 24.5 22 21 22 16 C22 11 19.2 7.5 15 7.5 Z M15 10.2 C17.2 10.2 18.6 12.6 18.6 16 C18.6 19.4 17.2 21.8 15 21.8 C12.8 21.8 11.4 19.4 11.4 16 C11.4 12.6 12.8 10.2 15 10.2 Z" fill="#F3E9D7"/>
+
+  <!-- Signature Amber-Glow Period / Sparkle Dot -->
+  <circle cx="23.5" cy="22.5" r="2" fill="url(#gold)"/>
+  <circle cx="23.5" cy="22.5" r="3" fill="#D6A55A" fill-opacity="0.25"/>
+</svg>
