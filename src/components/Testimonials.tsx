@@ -124,7 +124,7 @@ export function Testimonials() {
           </div>
 
           <div className="md:col-span-5 relative flex justify-center">
-            <div className="relative w-full max-w-[320px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-full max-w-[440px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={idx}
