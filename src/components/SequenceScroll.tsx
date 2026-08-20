@@ -64,12 +64,13 @@ const OVERLAYS: Overlay[] = [
   },
   {
     id: "cta",
-    start: 0.99,
-    end: 1.0,
+    start: 0.78,
+    end: 0.98,
     align: "center",
-    eyebrow: "",
-    title: "",
-    body: "",
+    eyebrow: "Limited drop",
+    title: "Reserve your 6-pack.",
+    body: "500 bottles per batch. Nitrogen-flushed, chilled, ready to ship.",
+    cta: { label: "Pre-order now", href: "#shop" },
   },
 ];
 
