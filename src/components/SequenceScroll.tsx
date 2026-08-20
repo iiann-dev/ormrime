@@ -62,16 +62,6 @@ const OVERLAYS: Overlay[] = [
     title: "Single-origin milk. Real cane sugar. Zero syrups.",
     body: "Balanced for ice dilution — stays rich to the last sip.",
   },
-  {
-    id: "cta",
-    start: 0.78,
-    end: 0.98,
-    align: "center",
-    eyebrow: "Limited drop",
-    title: "Reserve your 6-pack.",
-    body: "500 bottles per batch. Nitrogen-flushed, chilled, ready to ship.",
-    cta: { label: "Pre-order now", href: "#shop" },
-  },
 ];
 
 export function SequenceScroll() {
