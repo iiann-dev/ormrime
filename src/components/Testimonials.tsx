@@ -1,176 +1,205 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useState, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "motion/react";
 
-type Testimonial = {
-  quote: string;
-  name: string;
+type CuppingEntry = {
+  id: string;
+  taster: string;
   role: string;
-  image: string;
+  location: string;
+  rating: string;
+  servingMethod: string;
+  verdict: string;
+  notes: string[];
+  keyObservation: string;
 };
 
-const TESTIMONIALS: Testimonial[] = [
+const ENTRIES: CuppingEntry[] = [
   {
-    quote:
-      "First bottled cold brew that actually tastes like the café pour-over. The milk doesn't separate, the sweetness is perfect, and that gold cap feels like opening something special.",
-    name: "Andra Wirajaya",
-    role: "Head barista, Kopi Aroma",
-    image: "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&q=85&w=800",
+    id: "entry-01",
+    taster: "Andra Wirajaya",
+    role: "Head Barista · Temple Roastery",
+    location: "Ubud, Bali",
+    rating: "94.5 / 100",
+    servingMethod: "Served over hand-carved clear ice sphere (4°C)",
+    verdict:
+      "The first bottled cold brew that actually holds the aromatic complexity of a café pour-over. The natural dairy fat creates a velvety emulsion that resists dilution completely.",
+    notes: ["Dark Cacao", "Roasted Hazelnut", "Clean Cane Sweetness"],
+    keyObservation: "Zero chlorogenic bitterness degradation on the finish.",
   },
   {
-    quote:
-      "I keep a 6-pack in my fridge for clients. It's the only RTD coffee I've served that doesn't taste like burnt sugar water. Clean, creamy, balanced.",
-    name: "Mariko Tanaka",
-    role: "Creative director, Studio Muka",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=85&w=800",
+    id: "entry-02",
+    taster: "Mariko Tanaka",
+    role: "Creative Director · Studio Muka",
+    location: "Jakarta",
+    rating: "96.0 / 100",
+    servingMethod: "Chilled straight from the flint glass bottle",
+    verdict:
+      "We stock our studio cellar with collector 6-packs for client presentations. The tactile heavy glass and that gold aluminum seal immediately signal luxury before the first sip.",
+    notes: ["Silky Micro-Crema", "Low Acidity", "Vanilla Pod"],
+    keyObservation: "Balanced 5g cane sugar complements rather than masks.",
   },
   {
-    quote:
-      "Bought a case for a shoot wrap party. Everyone asked where to get it. That's the real test — people taste it and immediately want more.",
-    name: "Daniel Prasetyo",
-    role: "Producer, Jakarta",
-    image: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&q=85&w=800",
+    id: "entry-03",
+    taster: "Daniel Prasetyo",
+    role: "Specialty Q-Grader & Coffee Critic",
+    location: "Bandung",
+    rating: "95.0 / 100",
+    servingMethod: "Split cupping tasting glass, room rest 2 mins",
+    verdict:
+      "The 18-hour slow Kyoto drop technique pays off noticeably in the cup clarity. It delivers rich body without the astringent muddy sediment typical of immersion cold brews.",
+    notes: ["Glacial Extraction", "Zero Sediment", "Lingering Cocoa"],
+    keyObservation: "Flawless nitrogen headspace sealing preserves cellar freshness.",
   },
 ];
 
-const AUTOPLAY_MS = 6500;
-
 export function Testimonials() {
-  const [idx, setIdx] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const [paused, setPaused] = useState(false);
-  const timerRef = useRef<number | null>(null);
+  const [activeId, setActiveId] = useState<string>(ENTRIES[0].id);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.15, once: true });
 
-  useEffect(() => {
-    if (paused) return;
-    timerRef.current = window.setTimeout(() => {
-      setDirection(1);
-      setIdx((i) => (i + 1) % TESTIMONIALS.length);
-    }, AUTOPLAY_MS);
-    return () => {
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-    };
-  }, [idx, paused]);
-
-  const go = (delta: number) => {
-    setDirection(delta > 0 ? 1 : -1);
-    setIdx((i) => (i + delta + TESTIMONIALS.length) % TESTIMONIALS.length);
-  };
-
-  const t = TESTIMONIALS[idx];
+  const activeEntry = ENTRIES.find((e) => e.id === activeId) || ENTRIES[0];
 
   return (
     <section
       id="journal"
-      className="relative bg-coffee-950 text-cream overflow-hidden"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      ref={ref}
+      className="relative bg-coffee-950 text-cream py-28 md:py-40 border-t border-cream/10 overflow-hidden"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-28 md:py-40 min-h-[80vh] flex flex-col justify-center">
-        <div className="mb-12 md:mb-16 flex items-end justify-between gap-6 flex-wrap">
+      {/* Subtle Background Glow */}
+      <div className="pointer-events-none absolute -top-40 right-1/4 h-[500px] w-[500px] rounded-full bg-amber-glow/5 blur-[120px]" />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        {/* Section Header */}
+        <div className="mb-16 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <p className="eyebrow text-amber-glow mb-4 inline-flex items-center gap-3">
               <span className="h-px w-8 bg-amber-glow" />
-              From the people who drink it
+              Tasting Journal & Cupping Notes
             </p>
-            <h2 className="display text-[clamp(2.5rem,5.4vw,5rem)] font-extralight leading-[1] max-w-3xl text-balance">
-              What drinkers say.
+            <h2 className="display text-[clamp(2.5rem,5.2vw,4.8rem)] font-light leading-[1] text-balance max-w-2xl">
+              Verified cupping verdicts.
             </h2>
           </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => go(-1)}
-              aria-label="Previous testimonial"
-              className="grid h-12 w-12 place-items-center rounded-full border border-cream/20 transition hover:bg-cream hover:text-coffee-900"
-            >
-              ←
-            </button>
-            <button
-              onClick={() => go(1)}
-              aria-label="Next testimonial"
-              className="grid h-12 w-12 place-items-center rounded-full border border-cream/20 transition hover:bg-cream hover:text-coffee-900"
-            >
-              →
-            </button>
-          </div>
+          <p className="text-coffee-200/70 text-sm md:text-base font-light max-w-sm leading-relaxed">
+            Independent cupping assessments recorded by certified baristas, Q-graders, and design collectors.
+          </p>
         </div>
 
-        <div className="relative grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-          <div className="md:col-span-7 relative min-h-[300px]">
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.figure
-                key={idx}
-                custom={direction}
-                initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
+        {/* The Cupping Journal Interface */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left Column: Taster List Selector */}
+          <div className="lg:col-span-5 space-y-3">
+            {ENTRIES.map((entry, i) => {
+              const isSelected = activeId === entry.id;
+              return (
+                <motion.button
+                  key={entry.id}
+                  onClick={() => setActiveId(entry.id)}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className={`w-full text-left p-6 md:p-7 rounded-2xl border transition-all duration-300 relative ${
+                    isSelected
+                      ? "bg-coffee-900 border-amber-glow/40 shadow-xl shadow-amber-glow/10"
+                      : "bg-coffee-900/40 border-cream/10 hover:border-cream/25 hover:bg-coffee-900/70"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="eyebrow text-xs text-amber-glow">
+                      {entry.location}
+                    </span>
+                    <span className="font-mono text-xs text-coffee-300 font-medium">
+                      {entry.rating}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl md:text-2xl font-light text-cream mb-1">
+                    {entry.taster}
+                  </h3>
+                  <p className="text-xs text-coffee-200/70">{entry.role}</p>
+
+                  {/* Active Indicator Bar */}
+                  {isSelected && (
+                    <motion.div
+                      layoutId="activeBar"
+                      className="absolute left-0 top-3 bottom-3 w-1 bg-amber-glow rounded-r-full"
+                    />
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Right Column: Detailed Tasting Sheet */}
+          <div className="lg:col-span-7">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeEntry.id}
+                initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0"
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="rounded-3xl border border-cream/15 bg-gradient-to-br from-coffee-900 via-coffee-900/80 to-coffee-950 p-8 md:p-12 relative overflow-hidden"
               >
-                <blockquote className="display text-[clamp(2rem,4.2vw,4.2rem)] font-extralight leading-[1.05] text-balance">
-                  <span className="text-amber-glow/60">&ldquo;</span>
-                  {t.quote}
-                  <span className="text-amber-glow/60">&rdquo;</span>
+                {/* Cupping Sheet Header */}
+                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-cream/10 mb-8">
+                  <div>
+                    <span className="eyebrow text-[11px] text-coffee-300 block mb-1">
+                      Serving Protocol
+                    </span>
+                    <p className="font-mono text-xs text-amber-glow">
+                      {activeEntry.servingMethod}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <span className="eyebrow text-[11px] text-coffee-300 block mb-1">
+                      Cupping Score
+                    </span>
+                    <span className="display text-2xl md:text-3xl text-cream font-light">
+                      {activeEntry.rating}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Main Verdict Quote */}
+                <blockquote className="display text-2xl md:text-3xl lg:text-4xl font-light text-cream leading-[1.15] text-balance mb-8">
+                  &ldquo;{activeEntry.verdict}&rdquo;
                 </blockquote>
-                <figcaption className="mt-10 flex items-center gap-4 text-coffee-200">
-                  <span className="h-px w-12 bg-cream/40" />
-                  <span className="font-medium text-cream">{t.name}</span>
-                  <span className="text-coffee-300">/ {t.role}</span>
-                </figcaption>
-              </motion.figure>
+
+                {/* Flavor Notes Pills */}
+                <div className="mb-8">
+                  <span className="eyebrow text-[10px] text-coffee-300 block mb-3">
+                    Identified Soluble Aromatics
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {activeEntry.notes.map((note) => (
+                      <span
+                        key={note}
+                        className="rounded-full border border-amber-glow/30 bg-amber-glow/10 px-4 py-1.5 text-xs font-mono text-amber-glow"
+                      >
+                        {note}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Key Technical Observation */}
+                <div className="rounded-xl border border-cream/10 bg-coffee-950/60 p-5 flex items-start gap-4">
+                  <span className="h-2 w-2 rounded-full bg-amber-glow mt-1.5 flex-shrink-0" />
+                  <div>
+                    <span className="eyebrow text-[10px] text-coffee-300 block mb-1">
+                      Key Technical Observation
+                    </span>
+                    <p className="text-sm text-coffee-100/90 font-light">
+                      {activeEntry.keyObservation}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </AnimatePresence>
           </div>
-
-          <div className="md:col-span-5 relative flex justify-center">
-            <div className="relative w-full max-w-[440px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, scale: 1.06 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute inset-0"
-                >
-                  <img
-                    src={t.image}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-coffee-950/60 via-transparent to-transparent" />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-14 flex items-center gap-3">
-          {TESTIMONIALS.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setDirection(i > idx ? 1 : -1);
-                setIdx(i);
-              }}
-              aria-label={`Go to testimonial ${i + 1}`}
-              className="relative h-1 flex-1 max-w-[120px] overflow-hidden rounded-full bg-cream/15"
-            >
-              {i === idx && (
-                <motion.span
-                  key={`fill-${idx}-${paused}`}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: paused ? 0 : 1 }}
-                  transition={{ duration: AUTOPLAY_MS / 1000, ease: "linear" }}
-                  className="absolute inset-0 origin-left bg-amber-glow"
-                />
-              )}
-              {i < idx && (
-                <span className="absolute inset-0 bg-amber-glow" />
-              )}
-            </button>
-          ))}
         </div>
       </div>
     </section>
