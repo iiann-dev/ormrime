@@ -19,12 +19,12 @@ const ENTRIES: CuppingEntry[] = [
   {
     id: "entry-01",
     taster: "Andra Wirajaya",
-    role: "Head Barista · Temple Roastery",
+    role: "Head Barista & Roaster · Temple Co.",
     location: "Ubud, Bali",
     rating: "94.5 / 100",
     servingMethod: "Served over hand-carved clear ice sphere (4°C)",
     verdict:
-      "The first bottled cold brew that actually holds the aromatic complexity of a café pour-over. The natural dairy fat creates a velvety emulsion that resists dilution completely.",
+      "The first bottled cold brew that successfully captures the volatile aromatics of a fresh pour-over. The natural highland dairy emulsion provides unbelievable body that withstands ice dilution.",
     notes: ["Dark Cacao", "Roasted Hazelnut", "Clean Cane Sweetness"],
     keyObservation: "Zero chlorogenic bitterness degradation on the finish.",
   },
@@ -34,21 +34,21 @@ const ENTRIES: CuppingEntry[] = [
     role: "Creative Director · Studio Muka",
     location: "Jakarta",
     rating: "96.0 / 100",
-    servingMethod: "Chilled straight from the flint glass bottle",
+    servingMethod: "Chilled straight from the heavyweight flint glass bottle",
     verdict:
-      "We stock our studio cellar with collector 6-packs for client presentations. The tactile heavy glass and that gold aluminum seal immediately signal luxury before the first sip.",
+      "We stock our studio cellar with collector 6-packs for client presentations. The tactile heavy glass and that gold aluminum seal immediately signal luxury before the first sip is poured.",
     notes: ["Silky Micro-Crema", "Low Acidity", "Vanilla Pod"],
     keyObservation: "Balanced 5g cane sugar complements rather than masks.",
   },
   {
     id: "entry-03",
     taster: "Daniel Prasetyo",
-    role: "Specialty Q-Grader & Coffee Critic",
+    role: "Specialty Q-Grader & Coffee Judge",
     location: "Bandung",
     rating: "95.0 / 100",
     servingMethod: "Split cupping tasting glass, room rest 2 mins",
     verdict:
-      "The 18-hour slow Kyoto drop technique pays off noticeably in the cup clarity. It delivers rich body without the astringent muddy sediment typical of immersion cold brews.",
+      "The 18-hour slow Kyoto drop technique pays off noticeably in cup clarity. It delivers rich mouthfeel without the astringent muddy sediment typical of immersion cold brews.",
     notes: ["Glacial Extraction", "Zero Sediment", "Lingering Cocoa"],
     keyObservation: "Flawless nitrogen headspace sealing preserves cellar freshness.",
   },
@@ -67,10 +67,10 @@ export function Testimonials() {
       ref={ref}
       className="relative bg-coffee-950 text-cream py-28 md:py-40 border-t border-cream/10 overflow-hidden"
     >
-      {/* Subtle Background Glow */}
+      {/* Background ambient lighting */}
       <div className="pointer-events-none absolute -top-40 right-1/4 h-[500px] w-[500px] rounded-full bg-amber-glow/5 blur-[120px]" />
 
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 relative z-10">
         {/* Section Header */}
         <div className="mb-16 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
@@ -83,14 +83,14 @@ export function Testimonials() {
             </h2>
           </div>
           <p className="text-coffee-200/70 text-sm md:text-base font-light max-w-sm leading-relaxed">
-            Independent cupping assessments recorded by certified baristas, Q-graders, and design collectors.
+            Independent evaluations recorded by certified Q-graders, head baristas, and design leaders.
           </p>
         </div>
 
-        {/* The Cupping Journal Interface */}
+        {/* Cupping Interface Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Taster List Selector */}
-          <div className="lg:col-span-5 space-y-3">
+          {/* Left Selector Column */}
+          <div className="lg:col-span-5 space-y-4">
             {ENTRIES.map((entry, i) => {
               const isSelected = activeId === entry.id;
               return (
@@ -100,14 +100,14 @@ export function Testimonials() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className={`w-full text-left p-6 md:p-7 rounded-2xl border transition-all duration-300 relative ${
+                  className={`w-full text-left p-6 md:p-7 rounded-3xl border transition-all duration-300 relative ${
                     isSelected
-                      ? "bg-coffee-900 border-amber-glow/40 shadow-xl shadow-amber-glow/10"
+                      ? "bg-coffee-900 border-amber-glow/50 shadow-2xl shadow-amber-glow/10"
                       : "bg-coffee-900/40 border-cream/10 hover:border-cream/25 hover:bg-coffee-900/70"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="eyebrow text-xs text-amber-glow">
+                    <span className="eyebrow text-xs text-amber-glow font-mono">
                       {entry.location}
                     </span>
                     <span className="font-mono text-xs text-coffee-300 font-medium">
@@ -118,13 +118,12 @@ export function Testimonials() {
                   <h3 className="text-xl md:text-2xl font-light text-cream mb-1">
                     {entry.taster}
                   </h3>
-                  <p className="text-xs text-coffee-200/70">{entry.role}</p>
+                  <p className="text-xs text-coffee-200/70 font-light">{entry.role}</p>
 
-                  {/* Active Indicator Bar */}
                   {isSelected && (
                     <motion.div
-                      layoutId="activeBar"
-                      className="absolute left-0 top-3 bottom-3 w-1 bg-amber-glow rounded-r-full"
+                      layoutId="activeIndicator"
+                      className="absolute left-0 top-4 bottom-4 w-1.5 bg-amber-glow rounded-r-full"
                     />
                   )}
                 </motion.button>
@@ -132,7 +131,7 @@ export function Testimonials() {
             })}
           </div>
 
-          {/* Right Column: Detailed Tasting Sheet */}
+          {/* Right Detailed Sheet Column */}
           <div className="lg:col-span-7">
             <AnimatePresence mode="wait">
               <motion.div
@@ -141,9 +140,8 @@ export function Testimonials() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-3xl border border-cream/15 bg-gradient-to-br from-coffee-900 via-coffee-900/80 to-coffee-950 p-8 md:p-12 relative overflow-hidden"
+                className="rounded-3xl border border-cream/15 bg-gradient-to-br from-coffee-900 via-coffee-900/90 to-coffee-950 p-8 md:p-12 relative overflow-hidden shadow-2xl"
               >
-                {/* Cupping Sheet Header */}
                 <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-cream/10 mb-8">
                   <div>
                     <span className="eyebrow text-[11px] text-coffee-300 block mb-1">
@@ -163,14 +161,12 @@ export function Testimonials() {
                   </div>
                 </div>
 
-                {/* Main Verdict Quote */}
                 <blockquote className="display text-2xl md:text-3xl lg:text-4xl font-light text-cream leading-[1.15] text-balance mb-8">
                   &ldquo;{activeEntry.verdict}&rdquo;
                 </blockquote>
 
-                {/* Flavor Notes Pills */}
                 <div className="mb-8">
-                  <span className="eyebrow text-[10px] text-coffee-300 block mb-3">
+                  <span className="eyebrow text-[10px] text-coffee-300 block mb-3 font-mono">
                     Identified Soluble Aromatics
                   </span>
                   <div className="flex flex-wrap gap-2">
@@ -185,14 +181,13 @@ export function Testimonials() {
                   </div>
                 </div>
 
-                {/* Key Technical Observation */}
-                <div className="rounded-xl border border-cream/10 bg-coffee-950/60 p-5 flex items-start gap-4">
-                  <span className="h-2 w-2 rounded-full bg-amber-glow mt-1.5 flex-shrink-0" />
+                <div className="rounded-2xl border border-cream/10 bg-coffee-950/60 p-5 flex items-start gap-4">
+                  <span className="h-2 w-2 rounded-full bg-amber-glow mt-2 flex-shrink-0 shadow-[0_0_10px_rgba(234,179,8,0.8)]" />
                   <div>
-                    <span className="eyebrow text-[10px] text-coffee-300 block mb-1">
+                    <span className="eyebrow text-[10px] text-coffee-300 block mb-1 font-mono">
                       Key Technical Observation
                     </span>
-                    <p className="text-sm text-coffee-100/90 font-light">
+                    <p className="text-sm text-coffee-100/90 font-light leading-relaxed">
                       {activeEntry.keyObservation}
                     </p>
                   </div>
